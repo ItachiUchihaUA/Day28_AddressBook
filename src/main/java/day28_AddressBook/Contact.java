@@ -1,14 +1,26 @@
 package day28_AddressBook;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class Contact {
+	@CsvBindByName
 	private String firstName;
+	@CsvBindByName
 	private String lastName;
+	@CsvBindByName
 	private String Address;
+	@CsvBindByName
 	private String city;
+	@CsvBindByName
 	private String state;
+	@CsvBindByName
 	private String email;
+	@CsvBindByName
 	private String Phone;
+	@CsvBindByName
 	private String zip;
+	
+	
 	public String getFirstName() {
 		return firstName;
 	}
