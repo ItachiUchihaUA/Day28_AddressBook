@@ -20,15 +20,16 @@ public class AddressBook {
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book System!");
 		addContact();
-		editContact();
-		deleteContact();
-		cityBook = addressBook.stream().collect(Collectors.toMap( n -> n , n -> n.getCity()));
-		stateBook = addressBook.stream().collect(Collectors.toMap( n -> n , n -> n.getState()));
+//		editContact();
+//		deleteContact();
+//		cityBook = addressBook.stream().collect(Collectors.toMap( n -> n , n -> n.getCity()));
+//		stateBook = addressBook.stream().collect(Collectors.toMap( n -> n , n -> n.getState()));
 		writeInFile();
-		searchInCityOrState();
-		countForCity();
-		countForState();
-		sortByCityStateOrZip();
+//		searchInCityOrState();
+//		countForCity();
+//		countForState();
+//		sortByCityStateOrZip();
+		
 	}
 	
 
@@ -190,7 +191,7 @@ public class AddressBook {
 	}
 	
 	public static void writeInFile() {
-		try(BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\TheUA\\eclipse-workspace\\com.bridge.week3\\src\\day27_IOhandling\\addressBook.txt"));){
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter("src\\main\\java\\addressBook.txt"));){
 			for(int i =0; i< addressBook.size() ; i++) {
 				bw.write(addressBook.get(i).toString());
 			}
