@@ -2,9 +2,13 @@ package day28_AddressBook;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +20,11 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.JsonReader;
 import com.opencsv.CSVReader;
 
 public class AddressBook {
@@ -27,12 +36,14 @@ public class AddressBook {
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book System!");
 		addContact();
+		writeToJson(addressBook);
 		editContact();
 		deleteContact();
 		cityBook = addressBook.stream().collect(Collectors.toMap( n -> n , n -> n.getCity()));
 		stateBook = addressBook.stream().collect(Collectors.toMap( n -> n , n -> n.getState()));
 		writeInFile();
 		readInCSV();
+		readJSon();
 		searchInCityOrState();
 		countForCity();
 		countForState();
@@ -73,6 +84,7 @@ public class AddressBook {
 			c.setEmail(sc.next());
 			addressBook.add(c);
 			writeInCSV(c);
+
 			addressBook = addressBook.stream().sorted(Comparator.comparing(Contact::getFirstName))
 					.collect(Collectors.toList());
 
@@ -268,6 +280,34 @@ public class AddressBook {
 
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
+		}
+	}
+	
+	public static void writeToJson(List<Contact> c) {
+		
+		Gson g = new GsonBuilder().setPrettyPrinting().create();
+		try {
+			FileWriter fw = new FileWriter("src\\main\\java\\day28_AddressBook\\jsonFile.json");
+			g.toJson(c, fw);
+			fw.close();
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public static void readJSon() {
+		Gson g = new Gson();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("src\\main\\java\\day28_AddressBook\\jsonFile.json"));
+			Reader r = Files.newBufferedReader( Paths.get("src\\main\\java\\day28_AddressBook\\jsonFile.json")); 
+			Contact[] c = g.fromJson(br, Contact[].class);
+			
+			System.out.println(c);
+			br.close();
+		
+		} catch (JsonSyntaxException | JsonIOException | IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
